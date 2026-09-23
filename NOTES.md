@@ -4,6 +4,19 @@ Design decisions and their reasoning, newest first.
 
 ## 2026-09-23 (UTC)
 
+### v1.0.0 release and CI
+- **CI (`.github/workflows/ci.yml`):** push/PR to `main` only, on `windows-latest` (WPF's `net10.0-windows` doesn't build elsewhere): Release build of the solution, then `dotnet test --no-build`. No schedules, secrets or matrix, so it's free on a public repo and has nothing to maintain beyond action-version bumps. The workflow token is read-only (`permissions: contents: read`), and superseded runs on the same ref are cancelled.
+- **Action versions:** `actions/checkout@v7` and `actions/setup-dotnet@v6`, the latest majors per each action's releases page. GitHub's own [.NET tutorial](https://docs.github.com/en/actions/tutorials/build-and-test-code/net) still showed `@v6`/`@v4` at the time. Check the actions' release pages, not the tutorial, when bumping.
+- **Release binary:** a self-contained, single-file `win-x64` publish ([single-file docs](https://learn.microsoft.com/en-us/dotnet/core/deploying/single-file/overview)). The exact command is in the README.
+  - `IncludeNativeLibrariesForSelfExtract=true`: without it, WPF's native runtime DLLs sit beside the exe rather than inside it.
+  - `DebugType=embedded` keeps the PDB inside, so the download is one file.
+  - Nothing in the app uses the single-file-incompatible APIs (`Assembly.Location`, `CodeBase`, …).
+  - Trimming isn't used: WPF doesn't support it.
+- **Compression on (`EnableCompressionInSingleFile`):** measured locally over 3 launches each. 133 MB uncompressed with about 0.6 s to the main window, versus 62 MB compressed with about 0.7 s. Halving the download was worth roughly 0.1 s of startup for an app launched once per session.
+- **Asset name `ClaudeCodeTranscriptBuilder-win-x64.exe`:** GitHub replaces spaces in asset names with dots, so the exe (whose `AssemblyName` has spaces) is renamed for upload. The name is version-free, so the README's `/releases/latest/download/<name>` link keeps working across releases. The file's version resource still carries the product name and version.
+- **Versioning:** `<Version>` in `TranscriptBuilder.csproj` matches the `vX.Y.Z` tag. Bump it in the same commit as each release. The SDK appends the commit SHA to the ProductVersion (`1.0.0+212857a…` for v1.0.0), which ties each exe to its exact source.
+- **Unsigned:** no code-signing certificate, so SmartScreen warns on first run. The README says so and gives build-from-source as the alternative. Signing is on the Roadmap.
+
 ### Dark mode: WPF's native Fluent `ThemeMode`, not a hand-rolled ResourceDictionary swap
 - **Why Fluent:** WPF ships a first-party Fluent theme with a `ThemeMode` property (`Light`/`Dark`/`System`/`None`) since .NET 9, continuing in .NET 10 ([What's new in WPF for .NET 9](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/whats-new/net90), [using-fluent.md](https://github.com/dotnet/wpf/blob/main/Documentation/docs/using-fluent.md)). It restyles every standard control (Button/TextBox/ComboBox chrome) for both themes; a hand-rolled `ResourceDictionary` swap would have needed a custom `ControlTemplate` per control to look right in dark mode. It adds no NuGet dependency, keeping the app dependency-free.
 - **Trade-off accepted:** setting `ThemeMode` from code (needed for a runtime toggle, not just a fixed XAML value) is marked experimental (`WPF0001`) as of .NET 10 and "subject to breaking changes in future .NET releases." It's suppressed via `<NoWarn>` in the `.csproj`; the TFM (`net10.0-windows`) is pinned, so the risk is bounded to revisiting this one spot on a deliberate future TFM bump.

@@ -150,6 +150,10 @@ remembered in `settings.json` under `%AppData%\TranscriptBuilder`.
 Closing and reopening the app, or pointing it at a different project, is always safe — the next-entry
 state is re-derived from `AI_TRANSCRIPT.txt` on disk, never from in-memory app state.
 
+> [!NOTE]
+> **Publishing a project publicly?** `AI_TRANSCRIPT.txt` contains your full prompt history. Add it to that
+> project's `.gitignore` if you don't want your prompts published along with the code.
+
 ## 🧾 AI_TRANSCRIPT.txt format
 ```
 ================================================================================
