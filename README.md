@@ -74,9 +74,9 @@ switch and compaction, in order.
 
 ### Option 1: Download the app
 
-Download `Claude Code Transcript Builder.exe` from the
-[latest release](https://github.com/mkim87404/claude-code-transcript-builder/releases/latest) and run it.
-It's a single self-contained file for Windows 10/11 x64 — no .NET install and no installer needed.
+Download [`ClaudeCodeTranscriptBuilder-win-x64.exe`](https://github.com/mkim87404/claude-code-transcript-builder/releases/latest/download/ClaudeCodeTranscriptBuilder-win-x64.exe)
+from the [latest release](https://github.com/mkim87404/claude-code-transcript-builder/releases/latest) and
+run it. It's a single self-contained file for Windows 10/11 x64 — no .NET install and no installer needed.
 
 The exe is **not code-signed**, so Windows SmartScreen may warn that it's from an unknown publisher the
 first time you run it. Click **More info → Run anyway** to start it. If you'd rather not run an unsigned
