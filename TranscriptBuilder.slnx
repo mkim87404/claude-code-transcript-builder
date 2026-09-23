@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="TranscriptBuilder.Core/TranscriptBuilder.Core.csproj" />
+  <Project Path="TranscriptBuilder.Tests/TranscriptBuilder.Tests.csproj" />
+  <Project Path="TranscriptBuilder/TranscriptBuilder.csproj" />
+</Solution>

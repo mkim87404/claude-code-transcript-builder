@@ -1,0 +1,10 @@
+bin/
+obj/
+TestResults/
+# Local single-file release builds (the README's `dotnet publish ... -o publish`); shipped via GitHub Releases, never committed.
+publish/
+
+# This tool's own output: if it's ever run against this repo's root, keep a local CLAUDE.md or
+# AI_TRANSCRIPT.txt (which hold personal prompt history) out of commits.
+CLAUDE.md
+AI_TRANSCRIPT.txt

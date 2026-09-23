@@ -1,0 +1,30 @@
+<Window x:Class="TranscriptBuilder.EditAuditPromptWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        mc:Ignorable="d"
+        Title="Edit Audit Prompt" Height="420" Width="560" MinHeight="300" MinWidth="420"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
+        FocusManager.FocusedElement="{Binding ElementName=PromptTextBox}">
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Margin="0,0,0,8" TextWrapping="Wrap"
+                   Text="Insert Audit Prompt also appends &quot;Limit this to &lt;area&gt;&quot; — pre-selected in the compose box, ready to overwrite or delete."/>
+
+        <TextBox x:Name="PromptTextBox" Grid.Row="1" AcceptsReturn="True" AcceptsTab="True" TextWrapping="Wrap"
+                 VerticalScrollBarVisibility="Auto" FontFamily="Consolas" FontSize="13" Padding="6"
+                 AutomationProperties.Name="Audit prompt text"/>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button x:Name="ResetButton" Content="Reset to Default" Padding="10,4" Margin="0,0,8,0" Click="ResetButton_Click"/>
+            <Button x:Name="CancelButton" Content="Cancel" Padding="10,4" Margin="0,0,8,0" IsCancel="True" Click="CancelButton_Click"/>
+            <Button x:Name="SaveButton" Content="Save" Padding="10,4" IsDefault="True" Click="SaveButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
